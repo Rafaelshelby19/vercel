@@ -1,0 +1,44 @@
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+
+interface NodeResponse {
+  message: string;
+  data?: any; // Defina esta parte conforme o que o servidor realmente retorna
+}
+
+@Component({
+  selector: 'app-frutas',
+  standalone: true,
+  imports: [ReactiveFormsModule, HttpClientModule],
+  templateUrl: './frutas.component.html',
+  styleUrls: ['./frutas.component.css']
+})
+export class FrutasComponent implements OnInit {
+  nodeForm: FormGroup;
+  isLoading = false;
+
+  constructor(private fb: FormBuilder, private http: HttpClient) {
+    this.nodeForm = this.fb.group({
+      nodeData: ['', Validators.required]
+    });
+  }
+
+  ngOnInit(): void {}
+
+  onSubmit(): void {
+    if (this.nodeForm.valid) {
+      this.isLoading = true;
+      this.http.post<NodeResponse>('http://localhost:3000/api/nodes', this.nodeForm.value).subscribe({
+        next: (response) => {
+          console.log('Node data submitted', response);
+          this.isLoading = false;
+        },
+        error: (error) => {
+          console.error('Error submitting node data', error);
+          this.isLoading = false;
+        }
+      });
+    }
+  }
+}
