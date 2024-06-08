@@ -1,0 +1,11 @@
+<div class="background-form">
+    <header>
+      <h1>Banco de Dados</h1>
+      <img src="assets/banco.jpg" alt="Buraco Negro">
+    </header>
+    <form [formGroup]="nodeForm" (ngSubmit)="onSubmit()">
+      <label for="nodeData">Node Data:</label>
+      <input id="nodeData" formControlName="nodeData">
+      <button type="submit">Submit</button>
+    </form>
+  </div>
