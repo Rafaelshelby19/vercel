@@ -1,4 +1,4 @@
-const express = require('express');
+const express = require('express');"O Express serve como uma camada de abstração sobre o Node.js, tornando mais fácil e rápido criar servidores web e APIs robustas. Ele oferece funcionalidades prontas para lidar com rotas, requisições e respostas, middlewares, e muito mais, permitindo que você foque mais na lógica do seu aplicativo e menos em detalhes técnicos complexos."
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const cors = require('cors');
