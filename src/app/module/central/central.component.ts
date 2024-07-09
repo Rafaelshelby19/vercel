@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { FrutasComponent } from '../frutas/frutas.component';
+import { FrutaComponent } from '../fruta/fruta.component';
 
 
 @Component({
   selector: 'app-central',
   standalone: true,
-  imports: [ FrutasComponent ],
+  imports: [ FrutaComponent ],
   templateUrl: './central.component.html',
   styleUrl: './central.component.css'
 })

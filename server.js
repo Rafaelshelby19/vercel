@@ -1,7 +1,10 @@
-const express = require('express');"O Express serve como uma camada de abstração sobre o Node.js, tornando mais fácil e rápido criar servidores web e APIs robustas. Ele oferece funcionalidades prontas para lidar com rotas, requisições e respostas, middlewares, e muito mais, permitindo que você foque mais na lógica do seu aplicativo e menos em detalhes técnicos complexos."
+const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const cors = require('cors');
+
+// Corrigindo a string de conexão para usar o MongoDB Atlas com a senha codificada
+const mongoURI = 'mongodb+srv://rafaelalexalvesmoura7:Eminem080%40@cluster0.31cwlvw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
 
 const app = express();
 const port = 3000;
@@ -9,9 +12,7 @@ const port = 3000;
 app.use(cors());
 app.use(bodyParser.json());
 
-mongoose.connect('mongodb://localhost:27017/nodesDB')
-  .then(() => console.log('Conectado ao MongoDB'))
-  .catch(err => console.error('Erro ao conectar ao MongoDB', err));
+
 
 const nodeSchema = new mongoose.Schema({
   nodeData: String
@@ -36,4 +37,3 @@ app.post('/api/nodes', (req, res) => {
 app.listen(port, () => {
   console.log(`Servidor rodando em http://localhost:${port}`);
 });
-

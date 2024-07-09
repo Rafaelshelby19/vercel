@@ -4,17 +4,17 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 interface NodeResponse {
   message: string;
-  data: any;
+  data?: any; // Defina esta parte conforme o que o servidor realmente retorna
 }
 
 @Component({
-  selector: 'app-frutas',
-  templateUrl: './frutas.component.html',
-  styleUrls: ['./frutas.component.css'],
+  selector: 'app-fruta',
   standalone: true,
-  imports: [ReactiveFormsModule, HttpClientModule]  // Corrigido para incluir HttpClientModule corretamente
+  imports: [ReactiveFormsModule, HttpClientModule],
+  templateUrl: './fruta.component.html',
+  styleUrls: ['./fruta.component.css']
 })
-export class FrutasComponent implements OnInit {
+export class FrutaComponent implements OnInit {
   nodeForm: FormGroup;
   isLoading = false;
 
@@ -29,16 +29,17 @@ export class FrutasComponent implements OnInit {
   onSubmit(): void {
     if (this.nodeForm.valid) {
       this.isLoading = true;
-      this.http.post<NodeResponse>('https://banco-de-dados-phi.vercel.app/api/nodes', this.nodeForm.value).subscribe({
+      this.http.post<NodeResponse>('http://localhost:3000/api/nodes', this.nodeForm.value).subscribe({
         next: (response) => {
           console.log('Node data submitted', response);
           this.isLoading = false;
         },
         error: (error) => {
-          console.error('Erro:', error);
+          console.error('Error submitting node data', error);
           this.isLoading = false;
         }
       });
     }
   }
 }
+
