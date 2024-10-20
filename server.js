@@ -1,54 +1,64 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const cors = require('cors');
-const bodyParser = require('body-parser');
+const { MongoClient, ServerApiVersion } = require('mongodb');
 
 const app = express();
-const port = 3000;  // Porta do servidor
+const port = 3004;
 
-// String de conexão para o MongoDB Atlas
-const mongoURI = 'mongodb+srv://rafaelalexalvesmourass:Eminem080%40@cluster0.xfxk9.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
-
-// Middlewares
+// Middleware para parsing e CORS
+app.use(express.json());
 app.use(cors());
-app.use(bodyParser.json());
 
-// Conectar ao MongoDB Atlas
-mongoose.connect(mongoURI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  serverSelectionTimeoutMS: 5000
-})
-  .then(() => console.log('Conectado ao MongoDB Atlas com sucesso'))
-  .catch(err => {
-    console.error('Erro ao conectar ao MongoDB Atlas:', err.message);
-    console.error('Detalhes do erro:', err);
-  });
+// Conexão com o MongoDB Atlas
+const uri = "mongodb+srv://rafaelalexalvesmoura7:Eminem080%40@cluster0.31cwlvw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+let client;
 
-// Definir schema e modelo
-const nodeSchema = new mongoose.Schema({
-  nodeData: String
-}); 
-
-const Node = mongoose.model('Node', nodeSchema);  // Modelo para a coleção
-
-// Rota para salvar um novo Node no banco de dados
-app.post('/api/nodes', (req, res) => {
-  console.log('Requisição recebida:', req.body);
-  const newNode = new Node(req.body);
-  newNode.save()
-    .then(savedNode => {
-      console.log('Node salvo com sucesso:', savedNode);
-      res.status(200).send({ message: 'Node salvo com sucesso!', data: savedNode });
-    })
-    .catch(err => {
-      console.error('Erro ao salvar o node:', err);
-      res.status(500).send({ message: 'Erro ao salvar o node.', error: err });
+async function connectToMongo() {
+  try {
+    client = new MongoClient(uri, {
+      serverApi: {
+        version: ServerApiVersion.v1,
+        strict: true,
+        deprecationErrors: true,
+      }
     });
+
+    // Conectar ao MongoDB
+    await client.connect();
+    console.log("Conectado ao MongoDB Atlas!");
+  } catch (error) {
+    console.error("Erro ao conectar ao MongoDB Atlas:", error);
+  }
+}
+
+connectToMongo(); // Conectar uma vez ao iniciar o servidor
+
+// Rota para receber dados do frontend Angular
+app.post('/api/nodes', async (req, res) => {
+  try {
+    console.log("Requisição recebida do frontend:", req.body); // Log de dados recebidos
+
+    const db = client.db("meuBanco"); // Substitua pelo nome do seu banco de dados
+    const collection = db.collection("minhaColecao"); // Substitua pelo nome da sua coleção
+    
+    // Inserir dados no MongoDB
+    const result = await collection.insertOne(req.body);
+    
+    // Enviar resposta de sucesso para o Angular
+    res.status(200).json({
+      message: 'Dados inseridos com sucesso!',
+      data: result
+    });
+  } catch (error) {
+    console.error("Erro ao conectar ou inserir no MongoDB:", error);
+    res.status(500).json({
+      message: 'Erro ao conectar ou inserir no MongoDB',
+      error: error.message
+    });
+  }
 });
 
 // Iniciar o servidor
 app.listen(port, () => {
   console.log(`Servidor rodando na porta ${port}`);
 });
-

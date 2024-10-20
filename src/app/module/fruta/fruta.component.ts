@@ -29,7 +29,7 @@ export class FrutaComponent implements OnInit {
   onSubmit(): void {
     if (this.nodeForm.valid) {
       this.isLoading = true;
-      this.http.post<NodeResponse>('http://localhost:3000/api/nodes', this.nodeForm.value).subscribe({
+      this.http.post<NodeResponse>('https://my-backend.vercel.app/api/nodes', this.nodeForm.value).subscribe({
         next: (response) => {
           console.log('Node data submitted', response);
           this.isLoading = false;
