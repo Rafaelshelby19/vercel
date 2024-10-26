@@ -3,7 +3,7 @@ const cors = require('cors');
 const { MongoClient, ServerApiVersion } = require('mongodb');
 
 const app = express();
-const port = 3020;
+const port = 3021;
 
 // Middleware para parsing e CORS
 app.use(express.json());
