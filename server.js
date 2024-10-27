@@ -5,9 +5,15 @@ const { MongoClient, ServerApiVersion } = require('mongodb');
 const app = express();
 const port = 3022;
 
-// Middleware para parsing e CORS
+// Configurar CORS para permitir requisições do frontend no Vercel
+app.use(cors({
+  origin: 'https://dadostest-shelbyrf.vercel.app', // Especifica o domínio do frontend para segurança
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type']
+}));
+
+// Middleware para parsing de JSON
 app.use(express.json());
-app.use(cors());
 
 // Conexão com o MongoDB Atlas
 const uri = "mongodb+srv://rafaelalexalvesmoura7:Eminem080%40@cluster0.31cwlvw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
