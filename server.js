@@ -3,7 +3,7 @@ const cors = require('cors');
 const { MongoClient, ServerApiVersion } = require('mongodb');
 
 const app = express();
-const port = 3022;
+const port = 3023;
 
 // Configurar CORS para permitir requisições do frontend no Vercel
 app.use(cors({
