@@ -4,7 +4,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 interface NodeResponse {
   message: string;
-  data?: any; // Defina esta parte conforme o que o servidor realmente retorna
+  data?: any; // Define a resposta esperada do servidor
 }
 
 @Component({
@@ -33,6 +33,7 @@ export class FrutaComponent implements OnInit {
         next: (response) => {
           console.log('Node data submitted', response);
           this.isLoading = false;
+          this.nodeForm.reset();
         },
         error: (error) => {
           console.error('Error submitting node data', error);
@@ -42,4 +43,3 @@ export class FrutaComponent implements OnInit {
     }
   }
 }
-
