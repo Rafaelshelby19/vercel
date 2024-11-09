@@ -29,7 +29,7 @@ connectToMongo();
 
 // Configuração do CORS para permitir requisições de qualquer origem
 app.use(cors({
-  origin: '*',  // Permite requisições de qualquer origem (você pode restringir conforme necessário)
+  origin: 'https://node.t.vercel.app',  // Permite requisições de qualquer origem (você pode restringir conforme necessário)
   methods: ['GET', 'POST', 'OPTIONS'],
   allowedHeaders: ['Content-Type']
 }));
