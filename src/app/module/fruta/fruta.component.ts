@@ -35,7 +35,7 @@ export class FrutaComponent implements OnInit {
       this.errorMessage = null;
 
       // Enviar os dados para a API
-      this.http.post<NodeResponse>('https://node.t.vercel.app/api/nodes', this.nodeForm.value).subscribe({
+      this.http.post<NodeResponse>('https://vercel-luxc.vercel.app/api/nodes', this.nodeForm.value).subscribe({
         next: (response) => {
           console.log('Node data submitted', response);
           this.successMessage = response.message;  // Mensagem de sucesso
